@@ -1,45 +1,47 @@
 import React from 'react';
-import { ceil } from 'lodash';
 import { usePlane } from 'use-cannon';
 import {
   TextureLoader,
   RepeatWrapping,
-  PlaneBufferGeometry,
-  Mesh,
-  MeshStandardMaterial
+  NearestFilter,
+  LinearFilter,
 } from 'three';
-import grass from '@@static/images/grass.jpeg';
+import grass from '@@static/images/grass.jpg';
 import { useStore } from '@@hooks/useStore';
 
-export default function Ground(props) {
+export function Ground(props) {
   const [ref] = usePlane(() => ({ rotation: [-Math.PI / 2, 0, 0], ...props }));
-  const [addCube, type] = useStore(state => [state.addCube, state.type]);
+  const [addCube, activeTexture] = useStore(state => [state.addCube, state.texture]);
 
   const texture = new TextureLoader().load(grass);
 
+  texture.magFilter = NearestFilter;
+  texture.minFilter = LinearFilter;
   texture.wrapS = RepeatWrapping;
   texture.wrapT = RepeatWrapping;
   texture.repeat.set(100, 100);
 
   return (
-    <Mesh
-      receiveShadow
+    <mesh
       ref={ref}
+      receiveShadow
       onClick={(e) => {
         e.stopPropagation();
 
-        const { x, y, z } = e.point;
+        const { x, y, z } = Object.values(e.point).map(coord => Math.ceil(coord));
 
-        addCube(ceil(x), ceil(y), ceil(z), type);
+        addCube(x, y, z, activeTexture);
       }}>
 
-      <PlaneBufferGeometry
+      <planeBufferGeometry
         attach="geometry"
         args={[100, 100]} />
 
-      <MeshStandardMaterial
+      <meshStandardMaterial
         attach="material"
         map={texture} />
-    </Mesh>
+    </mesh>
   );
 }
+
+export default Ground;
