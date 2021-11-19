@@ -1,0 +1,45 @@
+@use '@@assets/scss/theme/typography';
+@use '@@assets/scss/theme/palette';
+@use '@@assets/scss/theme/height';
+
+* {
+  margin: 0;
+  padding: 0;
+  scrollbar-width: none;
+  box-sizing: border-box;
+  font-variant-ligatures: none;
+}
+
+html,
+body {
+  height: 100%;
+  /** 預設為 dark-mode */
+  background-color: palette.get(dark-mode, background-base);
+
+  min-width: 300px;
+  height: height.$inner-height;
+  min-height: 500px;
+  max-height: 100vh;
+  overflow: hidden;
+}
+
+body {
+  font-family: typography.$font-family;
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  margin: 0;
+  overscroll-behavior-y: none;
+}
+
+a {
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+::-webkit-scrollbar-thumb {
+  display: none;
+}

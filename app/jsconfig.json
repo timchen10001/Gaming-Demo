@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "target": "es2020",
+    "module": "commonjs",
+    "jsx": "react",
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": ".",
+    "paths": {
+      // "@@core/*": ["src/core/*"],
+      // "@@domains/*": ["src/domains/*"],
+      "@@static/*": ["src/static/*"],
+      "@@ui/*": ["src/ui/*"],
+      "@@assets/*": ["src/assets/*"],
+      "@@constants/*": ["src/constants/*"],
+      "@@hooks/*": ["src/hooks/*"],
+      // "@@helpers/*": ["src/helpers/*"],
+    }
+  },
+  "include": ["./src"],
+  "exclude": []
+}
