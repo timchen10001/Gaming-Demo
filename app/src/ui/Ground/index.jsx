@@ -1,19 +1,23 @@
 import React from 'react';
 import { usePlane } from 'use-cannon';
 import {
-  TextureLoader,
+  // TextureLoader,
   RepeatWrapping,
   NearestFilter,
   LinearFilter,
 } from 'three';
-import grass from '@@static/images/grass.jpg';
-import { useStore } from '@@hooks/useStore';
+import * as textures from '@@constants/textures';
+// import { useStore } from '@@hooks/useStore';
 
-export function Ground(props) {
-  const [ref] = usePlane(() => ({ rotation: [-Math.PI / 2, 0, 0], ...props }));
-  const [addCube, activeTexture] = useStore(state => [state.addCube, state.texture]);
+export const Ground = (props) => {
+  const [ref] = usePlane(() => ({
+    rotation: [-Math.PI / 2, 0, 0],
+    ...props,
+  }));
 
-  const texture = new TextureLoader().load(grass);
+  // const [addCube, activeTexture] = useStore(state => [state.addCube, state.texture]);
+
+  const texture = textures.grass;
 
   texture.magFilter = NearestFilter;
   texture.minFilter = LinearFilter;
@@ -28,20 +32,18 @@ export function Ground(props) {
       onClick={(e) => {
         e.stopPropagation();
 
-        const { x, y, z } = Object.values(e.point).map(coord => Math.ceil(coord));
+        // const { x, y, z } = Object.values(e.point).map(coord => Math.ceil(coord));
 
-        addCube(x, y, z, activeTexture);
+        // addCube(x, y, z, activeTexture);
       }}>
-
       <planeBufferGeometry
         attach="geometry"
         args={[100, 100]} />
-
       <meshStandardMaterial
-        attach="material"
-        map={texture} />
+        map={texture}
+        attach="material" />
     </mesh>
   );
-}
+};
 
 export default Ground;
