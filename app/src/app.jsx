@@ -3,6 +3,8 @@ import { Canvas } from 'react-three-fiber';
 import { Sky } from 'drei';
 import { Physics } from 'use-cannon';
 import { Ground } from '@@ui/Ground';
+import { Cube } from '@@ui/Cube';
+import { Player } from '@@core/Player';
 // import Cube from '@@ui/Cube';
 // import { StorageKeys } from '@@hooks/useStore';
 
@@ -15,7 +17,10 @@ function App() {
       {/* <Hud position={[0, 0, -2]} /> */}
       <Physics gravity={[0, -30, 0]}>
         <Ground position={[0, 0.5, 0]} />
-        {/* <Player position={[0, 3, 10]} /> */}
+        <Player position={[0, 3, 10]} />
+        <Cube
+          position={[0, 1, 0]}
+          type="wood" />
       </Physics>
     </Canvas>
   );
