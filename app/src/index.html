@@ -3,16 +3,9 @@
   <head>
     <title>Minecraft Demo</title>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
   </head>
   <body>
     <div id="root"></div>
   </body>
-  <script>
-    const handleResizing = () => {
-      document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`);
-    };
-    handleResizing();
-    window.addEventListener('resize', handleResizing);
-  </script>
 </html>
