@@ -2,7 +2,6 @@ import {
   TextureLoader,
   NearestFilter,
   LinearMipMapLinearFilter,
-  RepeatWrapping,
 } from 'three';
 import dirtImg from '@@static/images/dirt.jpg';
 import grassImg from '@@static/images/grass.jpg';
@@ -20,11 +19,6 @@ dirt.magFilter = NearestFilter;
 dirt.minFilter = LinearMipMapLinearFilter;
 grass.magFilter = NearestFilter;
 grass.minFilter = LinearMipMapLinearFilter;
-grass.wrapS = RepeatWrapping;
-grass.wrapT = RepeatWrapping;
-grass.repeat.set(100, 100);
-glass.magFilter = NearestFilter;
-glass.minFilter = LinearMipMapLinearFilter;
 wood.magFilter = NearestFilter;
 wood.minFilter = LinearMipMapLinearFilter;
 log.magFilter = NearestFilter;
