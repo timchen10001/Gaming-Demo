@@ -1,8 +1,13 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { usePlane } from 'use-cannon';
 import { useStore } from '@@hooks/useStore';
-import * as textures from '@@constants/textures';
-// import { useStore } from '@@hooks/useStore';
+import grass from '@@static/images/grass.jpg';
+import {
+  LinearMipMapLinearFilter,
+  NearestFilter,
+  RepeatWrapping,
+  TextureLoader,
+} from 'three';
 
 export const Ground = (props) => {
   const [ref] = usePlane(() => ({
@@ -14,6 +19,18 @@ export const Ground = (props) => {
     state.addCube,
     state.texture,
   ]);
+
+  const texture = useMemo(() => {
+    const grassTexture = new TextureLoader().load(grass);
+
+    grassTexture.magFilter = NearestFilter;
+    grassTexture.minFilter = LinearMipMapLinearFilter;
+    grassTexture.wrapS = RepeatWrapping;
+    grassTexture.wrapT = RepeatWrapping;
+    grassTexture.repeat.set(100, 100);
+
+    return grassTexture;
+  }, []);
 
   return (
     <mesh
@@ -30,7 +47,7 @@ export const Ground = (props) => {
         attach="geometry"
         args={[100, 100]} />
       <meshStandardMaterial
-        map={textures.grass}
+        map={texture}
         attach="material" />
     </mesh>
   );
