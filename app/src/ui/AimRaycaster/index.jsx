@@ -1,8 +1,10 @@
 import React, { useEffect, useRef } from 'react';
 
-const AIM_WIDTH = 4;
+const AIM_WIDTH = 3;
 const AIM_LENGTH = 18;
-const AIM_COLOR = 'rgba(128, 128, 128, 0.63)';
+const AIM_CENTER_DOT = 3;
+const AIM_COLOR = 'rgba(107, 107, 107, 0.45)';
+const AIM_CENTER_DOT_COLOR = 'rgba(107, 107, 107, 0.8)';
 
 export const AimRaycaster = () => {
   const ref = useRef(null);
@@ -44,19 +46,21 @@ export const AimRaycaster = () => {
 
       ctx.stroke();
 
-      // ctx.fillRect(
-      //   (canvas.width / 2) - 2.5,
-      //   (canvas.height / 2) - 2.5,
-      //   5,
-      //   5,
-      // );
+      ctx.strokeStyle = AIM_CENTER_DOT_COLOR;
 
-      // ctx.strokeRect(
-      //   (canvas.width / 2) - 2.5,
-      //   (canvas.height / 2) - 2.5,
-      //   5,
-      //   5,
-      // );
+      ctx.fillRect(
+        middleX - AIM_CENTER_DOT / 2,
+        middleY - AIM_CENTER_DOT / 2,
+        AIM_CENTER_DOT,
+        AIM_CENTER_DOT,
+      );
+
+      ctx.strokeRect(
+        middleX - AIM_CENTER_DOT / 2,
+        middleY - AIM_CENTER_DOT / 2,
+        AIM_CENTER_DOT,
+        AIM_CENTER_DOT,
+      );
     }
 
     handleResize();
