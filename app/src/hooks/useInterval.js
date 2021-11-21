@@ -16,7 +16,7 @@ export function useInterval(callback, delay) {
       }
     }
 
-    if (delay !== 0 && !delay) {
+    if (delay !== 0 && !!delay) {
       const timerId = setInterval(tick, delay);
 
       return () => clearInterval(timerId);

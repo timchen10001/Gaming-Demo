@@ -12,13 +12,13 @@ const getLocalStorage = key => JSON.parse(window.localStorage.getItem(key));
 const setLocalStorage = (key, value) => window.localStorage.setItem(key, JSON.stringify(value));
 
 export const useStore = create(set => ({
-  cubes: getLocalStorage(StorageKeys.CUBES) || [{ pos: [0, 0, 0], type: StorageKeys.WOOD }],
+  cubes: getLocalStorage(StorageKeys.CUBES) || [],
   addCube: (x, y, z, type) => set(state => ({
     cubes: [
       ...state.cubes,
       {
-        key: nanoid(),
         type,
+        key: nanoid(),
         pos: [x, y, z],
         texture: state.texture,
       },

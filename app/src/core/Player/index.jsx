@@ -65,12 +65,22 @@ export const Player = (props) => {
       velocity.current[1],
       direction.z,
     );
+
+    // 垂直向量
+    if (jump && Math.abs(velocity.current[1].toFixed(2)) < 0.05) {
+      sphere.velocity.set(
+        velocity.current[0],
+        8,
+        velocity.current[2],
+      );
+    }
   });
 
   return (
     <>
       <FPVControls />
-      <mesh ref={ref} />
+      <mesh
+        ref={ref} />
     </>
   );
 };
