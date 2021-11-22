@@ -1,3 +1,5 @@
+/* eslint-disable consistent-return */
+import { useStore } from '@@hooks/useStore';
 import { floor } from 'lodash';
 import React, { useEffect, useRef } from 'react';
 import { extend, useThree } from 'react-three-fiber';
@@ -8,6 +10,10 @@ extend({ PointerLockControlsImpl });
 
 export const FPVControls = () => {
   const controlsRef = useRef();
+  const currentViewingMaterial = useRef({
+    material: null,
+    faceIndex: null,
+  });
 
   const {
     camera,
@@ -15,6 +21,16 @@ export const FPVControls = () => {
     raycaster,
     scene,
   } = useThree();
+
+  const [
+    addCube,
+    removeCube,
+    activeTexture,
+  ] = useStore(state => [
+    state.addCube,
+    state.removeCube,
+    state.texture,
+  ]);
 
   useEffect(() => {
     let hoveredObject = {
@@ -44,6 +60,11 @@ export const FPVControls = () => {
           const faceIndex = floor(intersect.faceIndex / 2);
           const targetMaterial = intersect.object.material?.[faceIndex];
 
+          currentViewingMaterial.current = {
+            material: targetMaterial,
+            faceIndex,
+          };
+
           const originColor = JSON.stringify(targetMaterial?.color);
 
           const theSameMaterial = hoveredObject?.material?.uuid === targetMaterial.uuid;
@@ -60,6 +81,37 @@ export const FPVControls = () => {
       }
     }
 
+    function handleFPVShooting(e) {
+      const {
+        material: targetMaterial,
+        faceIndex,
+      } = currentViewingMaterial.current;
+
+      if (targetMaterial.name === 'CUBE_MATERIAL') {
+        const { x, y, z } = targetMaterial?.parent?.position;
+
+        switch (faceIndex) {
+          case 0:
+            return e.altKey ? removeCube(x, y, z) : addCube(x + 1, y, z, activeTexture);
+          case 1:
+            return e.altKey ? removeCube(x, y, z) : addCube(x - 1, y, z, activeTexture);
+          case 2:
+            return e.altKey ? removeCube(x, y, z) : addCube(x, y + 1, z, activeTexture);
+          case 3:
+            return e.altKey ? removeCube(x, y, z) : addCube(x, y - 1, z, activeTexture);
+          case 4:
+            return e.altKey ? removeCube(x, y, z) : addCube(x, y, z + 1, activeTexture);
+          case 5:
+            return e.altKey ? removeCube(x, y, z) : addCube(x, y, z - 1, activeTexture);
+
+          default:
+            break;
+        }
+      }
+    }
+
+    document.addEventListener('click', handleFPVShooting);
+
     /** @INFO 鎖定第一人稱視角 */
     document.addEventListener('click', () => {
       controlsRef.current.lock();
@@ -70,6 +122,10 @@ export const FPVControls = () => {
     };
 
     document.onmousemove = trackingFPV;
+
+    return () => {
+      document?.removeEventListener('click', handleFPVShooting);
+    };
   }, []);
 
   return (

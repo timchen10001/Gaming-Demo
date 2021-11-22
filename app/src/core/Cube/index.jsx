@@ -2,10 +2,8 @@
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable react/jsx-indent-props */
 import React, { useState } from 'react';
-import { floor } from 'lodash';
 import T from 'prop-types';
 import { useBox } from 'use-cannon';
-import { useStore } from '@@hooks/useStore';
 import * as textures from '@@constants/textures';
 
 export const Cube = ({
@@ -14,12 +12,6 @@ export const Cube = ({
   ...props
 }) => {
   const [hover, setHover] = useState();
-
-  const [addCube, removeCube, activeTexture] = useStore(state => [
-    state.addCube,
-    state.removeCube,
-    state.texture,
-  ]);
 
   const [ref] = useBox(() => ({
     type: 'Static',
@@ -40,26 +32,26 @@ export const Cube = ({
       onClick={(e) => {
         e.stopPropagation();
 
-        const clickedFace = floor(e.faceIndex / 2);
-        const { x, y, z } = ref.current.position;
+        // const clickedFace = floor(e.faceIndex / 2);
+        // const { x, y, z } = ref.current.position;
 
-        switch (clickedFace) {
-          case 0:
-            return e.altKey ? removeCube(x, y, z) : addCube(x + 1, y, z, activeTexture);
-          case 1:
-            return e.altKey ? removeCube(x, y, z) : addCube(x - 1, y, z, activeTexture);
-          case 2:
-            return e.altKey ? removeCube(x, y, z) : addCube(x, y + 1, z, activeTexture);
-          case 3:
-            return e.altKey ? removeCube(x, y, z) : addCube(x, y - 1, z, activeTexture);
-          case 4:
-            return e.altKey ? removeCube(x, y, z) : addCube(x, y, z + 1, activeTexture);
-          case 5:
-            return e.altKey ? removeCube(x, y, z) : addCube(x, y, z - 1, activeTexture);
+        // switch (clickedFace) {
+        //   case 0:
+        //     return e.altKey ? removeCube(x, y, z) : addCube(x + 1, y, z, activeTexture);
+        //   case 1:
+        //     return e.altKey ? removeCube(x, y, z) : addCube(x - 1, y, z, activeTexture);
+        //   case 2:
+        //     return e.altKey ? removeCube(x, y, z) : addCube(x, y + 1, z, activeTexture);
+        //   case 3:
+        //     return e.altKey ? removeCube(x, y, z) : addCube(x, y - 1, z, activeTexture);
+        //   case 4:
+        //     return e.altKey ? removeCube(x, y, z) : addCube(x, y, z + 1, activeTexture);
+        //   case 5:
+        //     return e.altKey ? removeCube(x, y, z) : addCube(x, y, z - 1, activeTexture);
 
-          default:
-            break;
-        }
+        //   default:
+        //     break;
+        // }
       }}>
       {[...Array(6)].map((_, index) => (
         <meshStandardMaterial
