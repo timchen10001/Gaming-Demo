@@ -1,13 +1,23 @@
 /* eslint-disable react/no-array-index-key */
 import React, { useState, useEffect } from 'react';
-import { useFrame, useThree } from 'react-three-fiber';
+import { Texture } from 'three';
+import T from 'prop-types';
+import { useFrame, useThree, ReactThreeFiber } from 'react-three-fiber';
 
 import * as textures from '@@constants/textures';
 import { useStore } from '@@hooks/useStore';
 
-const Material = ({ args, color, texture, isActive, ...props }) => (
+const Material = ({
+  args,
+  color,
+  texture,
+  isActive,
+  ...props
+}) => (
   <mesh {...props}>
-    <boxBufferGeometry attach="geometry" args={args} />
+    <boxBufferGeometry
+      attach="geometry"
+      args={args} />
     {[...Array(6)].map((_, index) => (
       <meshStandardMaterial
         key={index}
@@ -19,7 +29,27 @@ const Material = ({ args, color, texture, isActive, ...props }) => (
   </mesh>
 );
 
-const MaterialContainer = ({ args, color, activeTexture, ...props }) => {
+Material.propTypes = {
+  args: T.arrayOf(T.shape({
+    width: T.number,
+    height: T.number,
+    depth: T.number,
+    widthSegments: T.number,
+    heightSegments: T.number,
+    depthSegments: T.number,
+  })),
+  color: T.shape(ReactThreeFiber.Color),
+  texture: T.shape(Texture).isRequired,
+  isActive: T.bool.isRequired,
+  ...T.shape(ReactThreeFiber.Object3DNode),
+};
+
+const MaterialContainer = ({
+  args,
+  color,
+  activeTexture,
+  ...props
+}) => {
   const activeTextureIndex = Object.keys(textures).indexOf(activeTexture);
 
   return (
@@ -30,10 +60,11 @@ const MaterialContainer = ({ args, color, activeTexture, ...props }) => {
           isActive={activeTextureIndex === index}
           texture={textures[key]}
           args={[0.2, 0.2, 0.05]}
-          position={[-0.5 + index / 4, 0, 0.01]}
-        />
+          position={[-0.5 + index / 4, 0, 0.01]} />
       ))}
-      <boxBufferGeometry attach="geometry" args={args} />
+      <boxBufferGeometry
+        attach="geometry"
+        args={args} />
 
       <meshStandardMaterial
         transparent
@@ -41,6 +72,19 @@ const MaterialContainer = ({ args, color, activeTexture, ...props }) => {
         color={color} />
     </mesh>
   );
+};
+
+MaterialContainer.propTypes = {
+  args: T.arrayOf(T.shape({
+    width: T.number,
+    height: T.number,
+    depth: T.number,
+    widthSegments: T.number,
+    heightSegments: T.number,
+    depthSegments: T.number,
+  })),
+  color: T.shape(ReactThreeFiber.Color).isRequired,
+  activeTexture: T.string.isRequired,
 };
 
 export const Hud = ({ position }) => {
@@ -92,4 +136,10 @@ export const Hud = ({ position }) => {
       </group>
     )
   );
+};
+
+Hud.propTypes = {
+  position: T.arrayOf(
+    T.shape(ReactThreeFiber.Vector3)
+  ).isRequired,
 };

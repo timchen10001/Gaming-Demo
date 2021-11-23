@@ -32,6 +32,10 @@ export const FPVControls = () => {
     state.texture,
   ]);
 
+  const activeTextureRef = useRef(activeTexture);
+
+  useEffect(() => { activeTextureRef.current = activeTexture; });
+
   useEffect(() => {
     let hoveredObject = {
       material: null,
@@ -92,17 +96,17 @@ export const FPVControls = () => {
 
         switch (faceIndex) {
           case 0:
-            return e.altKey ? removeCube(x, y, z) : addCube(x + 1, y, z, activeTexture);
+            return e.altKey ? removeCube(x, y, z) : addCube(x + 1, y, z, activeTextureRef.current);
           case 1:
-            return e.altKey ? removeCube(x, y, z) : addCube(x - 1, y, z, activeTexture);
+            return e.altKey ? removeCube(x, y, z) : addCube(x - 1, y, z, activeTextureRef.current);
           case 2:
-            return e.altKey ? removeCube(x, y, z) : addCube(x, y + 1, z, activeTexture);
+            return e.altKey ? removeCube(x, y, z) : addCube(x, y + 1, z, activeTextureRef.current);
           case 3:
-            return e.altKey ? removeCube(x, y, z) : addCube(x, y - 1, z, activeTexture);
+            return e.altKey ? removeCube(x, y, z) : addCube(x, y - 1, z, activeTextureRef.current);
           case 4:
-            return e.altKey ? removeCube(x, y, z) : addCube(x, y, z + 1, activeTexture);
+            return e.altKey ? removeCube(x, y, z) : addCube(x, y, z + 1, activeTextureRef.current);
           case 5:
-            return e.altKey ? removeCube(x, y, z) : addCube(x, y, z - 1, activeTexture);
+            return e.altKey ? removeCube(x, y, z) : addCube(x, y, z - 1, activeTextureRef.current);
 
           default:
             break;
