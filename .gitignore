@@ -16,3 +16,4 @@ dist
 
 # yarn
 yarn-error.log
+node_modules

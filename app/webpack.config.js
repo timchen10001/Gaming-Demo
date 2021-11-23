@@ -32,7 +32,7 @@ module.exports = {
     filename: '[name].[contenthash:7].js',
     chunkFilename: '[id].[contenthash:7].js',
     path: path.resolve(__dirname, 'dist'),
-    publicPath: '/', // HTML 中的引用起始路徑
+    publicPath: './', // HTML 中的引用起始路徑
   },
   mode: isProduction ? 'production' : 'development',
   devServer: {
